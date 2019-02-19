@@ -21,7 +21,9 @@ public class Person {
     public void setEmail(String email) {this.email = email; }
 
     public String getPhone() {return phone; }
-    public void setPhone(String phone) {this.phone = phone; }
+    public void setPhone(String phone) {
+        this.phone = phone.substring(0,3) + "-" + phone.substring(3,6) + "-" + phone.substring(6,10);
+    }
 
     public String getBirthday() {return birthday; }
     public void setBirthday(String birthday) {this.birthday = birthday; }

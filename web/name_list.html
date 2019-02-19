@@ -65,9 +65,12 @@
                 <form id="my-form" name="my-form">
                     <div class="form-group">
                         <label for="firstName">First Name:</label> <input type="hidden" id="id" name="id" class="form-control"><br>
+                        <label for="lastName">Last Name:</label> <input type="hidden" id="id" name="id" class="form-control"><br>
                         <input type="text" id="firstName" name="firstName" class="form-control" placeholder="First name"><br>
                         <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last name"><br>
                         <input type="email" id="email" name="email" class="form-control" placeholder="Email address"><br>
+                        <span id="firstNameGlyph" class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <span id="firstNameStatus" class="sr-only"></span> <!-- Text goes in firstNameStatus for screen readers that can't see our icons. -->
                     </div>
                 </form>
             </div>
