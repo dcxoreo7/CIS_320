@@ -51,10 +51,35 @@ function updateTable() {
     })
 }
 
+function updateNlist(){
+    console.log("changes saved");
+    var fName = document.getElementById("firstName").value;
+    var lName = document.getElementById("lastName").value;
+    var eMail = document.getElementById("email").value;
+    var birthday = document.getElementById("birthday").value;
+    var phone = document.getElementById("phone").value;
+
+    //var myObject = {firstName: fName, lastName: lName, email: eMail, birthday: birthday, phone: phone};
+    //var gFieldsString = JSON.stringify(myObject);
+    //console.log(gFieldsString);
+
+    //var v1 = document.getElementById('phoneField').value;
+
+    var reg = /\b\d{3}[-]?\d{3}[-]?\d{4}\b/g;
+    if (reg.test(phone)){
+        console.log(fName + " " + lName + " " + phone);
+    } else {
+        console.log('Bad');
+    }
+}
 // There's a button in the form with the ID "addItem"
 // Associate the function showDialogAdd with it.
 var addItemButton = $('#addItem');
 addItemButton.on("click", showDialogAdd);
+
+var saveChangesButton = $('#saveChanges');
+saveChangesButton.on("click", updateNlist);
+
 
 // Call your code.
 updateTable();
