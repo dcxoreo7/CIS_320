@@ -65,17 +65,17 @@ function updateNlist(){
 
     //var v1 = document.getElementById('phoneField').value;
 
-    var regPhone = /\b\d{3}[-]?\d{3}[-]?\d{4}\b/g;
+    var regPhone = /^\b\d{3}[-]?\d{3}[-]?\d{4}\b$/i;
     var regBirth = /^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$/i;
     var regName = /^[a-zA-Z]+(([',.-][a-z])?[a-zA-Z]*)*$/;
     var regEmail = /^\s+@\s+\.\s+$/i;
 
-//     if (regPhone.test(phone) && regBirth.test(birthday) && regName.test(fName) && regName.test(lName) && regEmail.test(eMail)){
-//         console.log(fName + " " + lName + " " + phone + " " + birthday);
-//     } else {
-//         console.log('One or more fields invalid');
-//     }
-// }
+    if (regPhone.test(phone) && regBirth.test(birthday) && regName.test(fName) && regName.test(lName) && regEmail.test(eMail)){
+        console.log(fName + " " + lName + " " + phone + " " + eMail + " " + birthday);
+    } else {
+        console.log("First Name: " + fName + ", Last Name: " + lName + ", Phone: " + phone + ", Email: " + eMail + ", Birthday: " + birthday);
+    }
+
 
     if (regName.test(fName)){
         $('#firstName').removeClass("is-invalid");
@@ -120,21 +120,24 @@ function updateNlist(){
         $('#email').removeClass("is-invalid");
         $('#email').addClass("is-valid");
     }
+
+
+
 }
 // There's a button in the form with the ID "addItem"
 // Associate the function showDialogAdd with it.
 
 function closeClear(){
     $('#firstName').removeClass("is-valid");
-    //$('#firstName').removeClass("is-invalid");
+    $('#firstName').removeClass("is-invalid");
     $('#lastName').removeClass("is-valid");
-    //$('#lastName').removeClass("is-invalid");
+    $('#lastName').removeClass("is-invalid");
     $('#phone').removeClass("is-valid");
-    //$('#phone').removeClass("is-invalid");
+    $('#phone').removeClass("is-invalid");
     $('#email').removeClass("is-valid");
-    //$('#email').removeClass("is-invalid");
+    $('#email').removeClass("is-invalid");
     $('#birthday').removeClass("is-valid");
-    //$('#birthday').removeClass("is-invalid");
+    $('#birthday').removeClass("is-invalid");
 }
 
 var addItemButton = $('#addItem');
