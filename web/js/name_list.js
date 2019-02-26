@@ -77,19 +77,26 @@ function updateNlist(){
 //     }
 // }
 
-    if (regName.test(fName.val() && lName.val())){
+    if (regName.test(fName)){
         $('#firstName').removeClass("is-invalid");
         $('#firstName').addClass("is-valid");
-        $('#lastName').removeClass("is-invalid");
-        $('#lastName').addClass("is-valid");
+
     }
     else{
         $('#firstName').removeClass("is-valid");
         $('#firstName').addClass('is-invalid');
+    }
+
+    if (regName.test(lName)){
+        $('#lastName').removeClass("is-invalid");
+        $('#lastName').addClass("is-valid");
+    }
+    else {
         $('#lastName').removeClass("is-valid");
         $('#lastName').addClass('is-invalid');
     }
-    if (regPhone.test(phone.val())){
+
+    if (regPhone.test(phone)){
         $('#phone').removeClass("is-invalid");
         $('#phone').addClass("is-valid");
     }
@@ -97,7 +104,7 @@ function updateNlist(){
         $('#phone').removeClass("is-valid");
         $('#phone').addClass("is-invalid");
     }
-    if (regBirth.test(birthday.val())){
+    if (regBirth.test(birthday)){
         $('#birthday').removeClass("is-invalid");
         $('#birthday').addClass("is-valid");
     }
@@ -105,7 +112,7 @@ function updateNlist(){
         $('#birthday').removeClass("is-invalid");
         $('#birthday').addClass("is-valid");
     }
-    if (regEmail.test(eMail.val())){
+    if (regEmail.test(eMail)){
         $('#email').removeClass("is-invalid");
         $('#email').addClass("is-valid");
     }
@@ -116,11 +123,31 @@ function updateNlist(){
 }
 // There's a button in the form with the ID "addItem"
 // Associate the function showDialogAdd with it.
+
+function closeClear(){
+    $('#firstName').removeClass("is-valid");
+    //$('#firstName').removeClass("is-invalid");
+    $('#lastName').removeClass("is-valid");
+    //$('#lastName').removeClass("is-invalid");
+    $('#phone').removeClass("is-valid");
+    //$('#phone').removeClass("is-invalid");
+    $('#email').removeClass("is-valid");
+    //$('#email').removeClass("is-invalid");
+    $('#birthday').removeClass("is-valid");
+    //$('#birthday').removeClass("is-invalid");
+}
+
 var addItemButton = $('#addItem');
 addItemButton.on("click", showDialogAdd);
 
 var saveChangesButton = $('#saveChanges');
 saveChangesButton.on("click", updateNlist);
+
+var closeButton = $('#close');
+closeButton.on("click",closeClear);
+
+var closeBoxButton = $('#closeBox');
+closeBoxButton.on("click",closeClear);
 
 
 // Call your code.
