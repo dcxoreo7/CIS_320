@@ -65,11 +65,53 @@ function updateNlist(){
 
     //var v1 = document.getElementById('phoneField').value;
 
-    var reg = /\b\d{3}[-]?\d{3}[-]?\d{4}\b/g;
-    if (reg.test(phone)){
-        console.log(fName + " " + lName + " " + phone);
-    } else {
-        console.log('Bad');
+    var regPhone = /\b\d{3}[-]?\d{3}[-]?\d{4}\b/g;
+    var regBirth = /^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$/i;
+    var regName = /^[a-zA-Z]+(([',.-][a-z])?[a-zA-Z]*)*$/;
+    var regEmail = /^\s+@\s+\.\s+$/i;
+
+//     if (regPhone.test(phone) && regBirth.test(birthday) && regName.test(fName) && regName.test(lName) && regEmail.test(eMail)){
+//         console.log(fName + " " + lName + " " + phone + " " + birthday);
+//     } else {
+//         console.log('One or more fields invalid');
+//     }
+// }
+
+    if (regName.test(fName.val() && lName.val())){
+        $('#firstName').removeClass("is-invalid");
+        $('#firstName').addClass("is-valid");
+        $('#lastName').removeClass("is-invalid");
+        $('#lastName').addClass("is-valid");
+    }
+    else{
+        $('#firstName').removeClass("is-valid");
+        $('#firstName').addClass('is-invalid');
+        $('#lastName').removeClass("is-valid");
+        $('#lastName').addClass('is-invalid');
+    }
+    if (regPhone.test(phone.val())){
+        $('#phone').removeClass("is-invalid");
+        $('#phone').addClass("is-valid");
+    }
+    else{
+        $('#phone').removeClass("is-valid");
+        $('#phone').addClass("is-invalid");
+    }
+    if (regBirth.test(birthday.val())){
+        $('#birthday').removeClass("is-invalid");
+        $('#birthday').addClass("is-valid");
+    }
+    else{
+        $('#birthday').removeClass("is-invalid");
+        $('#birthday').addClass("is-valid");
+    }
+    if (regEmail.test(eMail.val())){
+        $('#email').removeClass("is-invalid");
+        $('#email').addClass("is-valid");
+    }
+    else{
+        $('#email').removeClass("is-invalid");
+        $('#email').addClass("is-valid");
     }
 }
 // There's a button in the form with the ID "addItem"
