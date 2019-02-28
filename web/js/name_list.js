@@ -70,10 +70,15 @@ function updateNlist(){
     var regName = /^[a-zA-Z]+(([',.-][a-z])?[a-zA-Z]*)*$/;
     var regEmail = /^\s+@\s+\.\s+$/i;
 
+    var myFields = {firstName: fName, lastName: lName, email: eMail, phone: phone, birthday: birthday};
+    var gFieldsOutput = JSON.stringify(myFields);
+
+
     if (regPhone.test(phone) && regBirth.test(birthday) && regName.test(fName) && regName.test(lName) && regEmail.test(eMail)){
         console.log(fName + " " + lName + " " + phone + " " + eMail + " " + birthday);
     } else {
-        console.log("First Name: " + fName + ", Last Name: " + lName + ", Phone: " + phone + ", Email: " + eMail + ", Birthday: " + birthday);
+        //console.log("First Name: " + fName + ", Last Name: " + lName + ", Phone: " + phone + ", Email: " + eMail + ", Birthday: " + birthday);
+        console.log(gFieldsOutput);
     }
 
 
