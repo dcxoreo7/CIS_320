@@ -1,185 +1,171 @@
-//console.log("Hi, this is a test.");
 
-// Main Javascript File
+function updateTable()
+{
 
-
-
-// Called when "Add Item" button is clicked
-function showDialogAdd() {
-
-    // Print that we got here
-    console.log("Opening add item dialog");
-
-    // Clear out the values in the form.
-    // Otherwise we'll keep values from when we last
-    // opened or hit edit.
-    // I'm getting it started, you can finish.
-    $('#id').val("");
-    $('#firstName').val("");
-
-    // Show the hidden dialog
-    $('#myModal').modal('show');
-}
-
-function updateTable() {
-
-
-// Define a URL
     var url = "api/name_list_get";
 
-    $.getJSON(url, null, function (json_result) {
+    $.getJSON(url, null, function(json_result)
+    {
         // json_result is an object. You can set a breakpoint, or print
         // it to see the fields. Specifically, it is an array of objects.
         // Here we loop the array and print the first name.
         for (var i = 0; i < json_result.length; i++) {
-            // console.log(json_result[i].first);
-            // console.log(json_result[i].last);
-            // console.log(json_result[i].phone);
-            // console.log(json_result[i].email);
-            // console.log(json_result[i].birthday);
-            // console.log(json_result[i].id);
-
+            var phone = json_result[i].phone;
+            var myPhone = phone.substring(0,3) + "-" + phone.substring(3,6) + "-" + phone.substring(6,10);
             $('#datatable tr:first').after('<tr>' +
                 '<td>' + json_result[i].id + '</td>' +
                 '<td>' + json_result[i].first + '</td>' +
                 '<td>' + json_result[i].last + '</td>' +
                 '<td>' + json_result[i].email + '</td>' +
-                '<td>' + json_result[i].phone + '</td>' +
-                '<td>' + json_result[i].birthday + '</td>'
-                + '</tr>');
+                '<td>' + myPhone + '</td>' +
+                '<td>' + json_result[i].birthday + '</td>' +
+                '</tr>');
+
         }
-    })
+        console.log("Done");
+    });
 }
 
-function updateNlist(){
-    console.log("changes saved");
-    var fName = document.getElementById("firstName").value;
-    var lName = document.getElementById("lastName").value;
-    var eMail = document.getElementById("email").value;
-    var birthday = document.getElementById("birthday").value;
-    var phone = document.getElementById("phone").value;
+updateTable();
 
-    //var myObject = {firstName: fName, lastName: lName, email: eMail, birthday: birthday, phone: phone};
-    //var gFieldsString = JSON.stringify(myObject);
-    //console.log(gFieldsString);
+function showDialogAdd() {
+    console.log("Opening add item dialog");
 
-    //var v1 = document.getElementById('phoneField').value;
+    $('#id').val("");
+    $('#firstName').val("");
+    $('#lastName').val("");
+    $('#email').val("");
+    $('#phone').val("");
+    $('#birthday').val();
 
-    var regPhone = /^\b\d{3}[-]?\d{3}[-]?\d{4}\b$/i;
-    var regBirth = /^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$/i;
-    var regName = /^[a-zA-Z]+(([',.-][a-z])?[a-zA-Z]*)*$/;
-    var regEmail = /^\s+@\s+\.\s+$/i;
-
-    var myFields = {firstName: fName, lastName: lName, email: eMail, phone: phone, birthday: birthday};
-    var gFieldsOutput = JSON.stringify(myFields);
-
-
-    if (regPhone.test(phone) && regBirth.test(birthday) && regName.test(fName) && regName.test(lName) && regEmail.test(eMail)){
-        console.log(fName + " " + lName + " " + phone + " " + eMail + " " + birthday);
-    } else {
-        //console.log("First Name: " + fName + ", Last Name: " + lName + ", Phone: " + phone + ", Email: " + eMail + ", Birthday: " + birthday);
-        console.log(gFieldsOutput);
-    }
-
-
-    if (regName.test(fName)){
-        $('#firstName').removeClass("is-invalid");
-        $('#firstName').addClass("is-valid");
-
-    }
-    else{
-        $('#firstName').removeClass("is-valid");
-        $('#firstName').addClass('is-invalid');
-    }
-
-    if (regName.test(lName)){
-        $('#lastName').removeClass("is-invalid");
-        $('#lastName').addClass("is-valid");
-    }
-    else {
-        $('#lastName').removeClass("is-valid");
-        $('#lastName').addClass('is-invalid');
-    }
-
-    if (regPhone.test(phone)){
-        $('#phone').removeClass("is-invalid");
-        $('#phone').addClass("is-valid");
-    }
-    else{
-        $('#phone').removeClass("is-valid");
-        $('#phone').addClass("is-invalid");
-    }
-    if (regBirth.test(birthday)){
-        $('#birthday').removeClass("is-invalid");
-        $('#birthday').addClass("is-valid");
-    }
-    else{
-        $('#birthday').removeClass("is-invalid");
-        $('#birthday').addClass("is-valid");
-    }
-    if (regEmail.test(eMail)){
-        $('#email').removeClass("is-invalid");
-        $('#email').addClass("is-valid");
-    }
-    else{
-        $('#email').removeClass("is-invalid");
-        $('#email').addClass("is-valid");
-    }
-
-
-
-}
-// There's a button in the form with the ID "addItem"
-// Associate the function showDialogAdd with it.
-
-function closeClear(){
     $('#firstName').removeClass("is-valid");
-    $('#firstName').removeClass("is-invalid");
     $('#lastName').removeClass("is-valid");
-    $('#lastName').removeClass("is-invalid");
-    $('#phone').removeClass("is-valid");
-    $('#phone').removeClass("is-invalid");
     $('#email').removeClass("is-valid");
-    $('#email').removeClass("is-invalid");
+    $('#phone').removeClass("is-valid");
     $('#birthday').removeClass("is-valid");
+    $('#firstName').removeClass("is-invalid");
+    $('#lastName').removeClass("is-invalid");
+    $('#email').removeClass("is-invalid");
+    $('#phone').removeClass("is-invalid");
     $('#birthday').removeClass("is-invalid");
+
+    $('#myModal').modal('show');
 }
 
 var addItemButton = $('#addItem');
-addItemButton.on("click", showDialogAdd);
+addItemButton.on("click", showDialogAdd)
 
-var saveChangesButton = $('#saveChanges');
-saveChangesButton.on("click", updateNlist);
+function saveChanges() {
+    console.log("Changes have been saved.")
+    validateFunction();
+}
 
-var closeButton = $('#close');
-closeButton.on("click",closeClear);
+var saveButton = $('#saveChanges');
+saveButton.on("click", saveChanges);
 
-var closeBoxButton = $('#closeBox');
-closeBoxButton.on("click",closeClear);
+// Function to validate
+function validateFunction() {
+    var valid = true;
+    var firstName = $('#firstName');
+    var lastName = $('#lastName');
+    var email = $('#email');
+    var phone = $('#phone');
+    var birthday = $('#birthday');
+
+    var nameReg = /^[a-zA-Z]+(([',.-][a-z])?[a-zA-Z]*)*$/;
+    var emailReg =  /^\S+@\S+\.\S+$/i;
+    var phoneReg = /^[0-9]{3}([-]?)[0-9]{3}([-]?)[0-9]{4}$/;
+    var birthdayReg = /^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$/i;
+
+    if (nameReg.test(firstName.val())) {
+        $('#firstName').removeClass("is-invalid");
+        $('#firstName').addClass("is-valid");
+
+    } else {
+        $('#firstName').removeClass("is-valid");
+        $('#firstName').addClass("is-invalid");
+        console.log("invalid first name");
+        valid = false;
+    }
+
+    if (nameReg.test(lastName.val())) {
+        $('#lastName').removeClass("is-invalid");
+        $('#lastName').addClass("is-valid");
+
+    } else {
+        $('#lastName').removeClass("is-valid");
+        $('#lastName').addClass("is-invalid");
+        console.log("invalid last name");
+        valid = false;
+    }
+
+    if (emailReg.test(email.val())) {
+        $('#email').removeClass("is-invalid");
+        $('#email').addClass("is-valid");
+
+    } else {
+        $('#email').removeClass("is-valid");
+        $('#email').addClass("is-invalid");
+        console.log("invalid email");
+        valid = false;
+    }
+    if (phoneReg.test(phone.val())) {
+        $('#result').text("Ok");
+        $('#phone').removeClass("is-invalid");
+        $('#phone').addClass("is-valid");
+
+    } else {
+        $('#phone').removeClass("is-valid");
+        $('#phone').addClass("is-invalid");
+        console.log("invalid phone");
+        valid = false;
+    }
+    if (birthdayReg.test(birthday.val())) {
+        $('#result').text("Ok");
+        $('#birthday').removeClass("is-invalid");
+        $('#birthday').addClass("is-valid");
 
 
-// Call your code.
-updateTable();
+    } else {
+        $('#birthday').removeClass("is-valid");
+        $('#birthday').addClass("is-invalid");
+        console.log("invalid birthday");
+        valid = false;
+    }
 
-// Define a function that will automatically be called when
-// our request is done.
-// function my_callback(json_result) {
-//     console.log("Done");
-// }
-//
-//
-// // Start a web call. Specify:
-// // URL
-// // Data to pass (nothing in this case)
-// // Function to call when we are done
-// $.getJSON(url, null, my_callback);
-//
-// var formButton1 = $('#button1');
-// formButton1.on("click", updateTable);
-//
-//
-//
-//     }
-//
-//
-// );
+    if(valid){
+        var jsonData = {
+            "first":firstName.val(),
+            "last":lastName.val(),
+            "email":email.val(),
+            "phone":phone.val(),
+            "birthday":birthday.val()
+        };
+
+        jqueryPostJSONAction(jsonData);
+    }
+}
+
+function jqueryPostJSONAction(jsonData) {
+
+    var url = "api/name_list_edit";
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: JSON.stringify(jsonData),
+        success: function(dataFromServer) {
+            console.log(dataFromServer);
+            refreshFields();
+        },
+        contentType: "application/json",
+        dataType: 'text'
+    });
+
+}
+function refreshFields() {
+
+    $('#myModal').modal('hide');
+    updateTable();
+
+}

@@ -75,11 +75,54 @@ public class PersonDAO {
             log.log(Level.SEVERE, "Error", e );
         } finally {
             // Ok, close our result set, statement, and connection
-            try { rs.close(); } catch (Exception e) { log.log(Level.SEVERE, "Error", e ); }
-            try { stmt.close(); } catch (Exception e) { log.log(Level.SEVERE, "Error", e ); }
-            try { conn.close(); } catch (Exception e) { log.log(Level.SEVERE, "Error", e ); }
+            try {
+                rs.close();
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "Error", e);
+            }
+            try {
+                stmt.close();
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "Error", e);
+            }
+            try {
+                conn.close();
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "Error", e);
+            }
         }
         // Done! Return the results
         return list;
     }
+
+    public static void createPerson(Person newPerson) {
+        log.log(Level.FINE, "Make person");
+        // Declare our variables
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String first = newPerson.getFirst();
+        String last = newPerson.getLast();
+        String email = newPerson.getEmail();
+        String phone = newPerson.getPhone();
+        String birthday = newPerson.getBirthday();
+        try {
+            // Get our database connection
+            conn = DBHelper.getConnection();
+            // This is a string that is our SQL query.
+            String sql = "INSERT INTO cis320.person (first, last, email, phone, birthday) VALUES(?,?,?,?,?);";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, first);
+            stmt.setString(2, last);
+            stmt.setString(3, email);
+            stmt.setString(4, phone);
+            stmt.setString(5, birthday);
+            stmt.executeUpdate();
+        } catch (SQLException se) {
+            log.log(Level.SEVERE, "SQL Error", se);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Error", e);
+        }
+    }
+
 }
