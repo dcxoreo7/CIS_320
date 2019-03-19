@@ -19,10 +19,14 @@ function updateTable()
                 '<td>' + json_result[i].email + '</td>' +
                 '<td>' + myPhone + '</td>' +
                 '<td>' + json_result[i].birthday + '</td>' +
+                '<td><button type="button" name="delete" class="deleteButton btn" value="' + json_result[i].id + '">Delete</button></td>' +
                 '</tr>');
+
 
         }
         console.log("Done");
+
+        $(".deleteButton").on("click", deleteItem);
     });
 }
 
@@ -54,6 +58,38 @@ function showDialogAdd() {
 
 var addItemButton = $('#addItem');
 addItemButton.on("click", showDialogAdd)
+
+// var buttons = $(".deleteButton");
+// buttons.on("click", deleteItem);
+
+function deleteItem(e) {
+    console.debug("Delete");
+    var id = e.target.value;
+    console.debug(e.target.value);
+
+
+    //var jsonString = JSON.stringify(id);
+    var deletePerson = {id:id};
+    var jsonString = JSON.stringify(deletePerson);
+    console.log(jsonString);
+
+    var url = "api/name_list_delete";
+    //var myFieldValue = $("#jqueryPostJSONField").val();
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: jsonString,
+        success: function(jsonString) {
+            console.log(jsonString);
+        },
+        contentType: "application/json",
+        dataType: 'text' // Could be JSON or whatever too
+    });
+    reFresh();
+}
+function reFresh(){
+    location.reload();
+}
 
 function saveChanges() {
     console.log("Changes have been saved.")
@@ -163,6 +199,8 @@ function jqueryPostJSONAction(jsonData) {
     });
 
 }
+
+
 function refreshFields() {
 
     $('#myModal').modal('hide');
