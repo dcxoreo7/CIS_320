@@ -64,6 +64,7 @@ public class PersonDAO {
                 person.setLast(rs.getString("last"));
                 person.setEmail(rs.getString("email"));
                 person.setPhone(rs.getString("phone"));
+                System.out.println("x " + person.getPhone());
                 person.setBirthday(rs.getString("birthday"));
 
                 // Add this person to the list so we can return it.
@@ -104,7 +105,9 @@ public class PersonDAO {
         String first = newPerson.getFirst();
         String last = newPerson.getLast();
         String email = newPerson.getEmail();
-        String phone = newPerson.getPhone();
+        //String phone = newPerson.getPhone()
+        String phone = newPerson.getPhone().replaceAll("\\D", "");
+        System.out.println("b " + phone);
         String birthday = newPerson.getBirthday();
         try {
             // Get our database connection
@@ -144,6 +147,43 @@ public class PersonDAO {
 
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);
+            stmt.executeUpdate();
+
+        } catch (SQLException se) {
+            log.log(Level.SEVERE, "SQL Error", se);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Error", e);
+        }
+    }
+
+    public static void updatePerson(Person updatePerson) {
+        log.log(Level.FINE, "Make person");
+
+        // Declare our variables
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int id = updatePerson.getId();
+        String first = updatePerson.getFirst();
+        String last = updatePerson.getLast();
+        String email = updatePerson.getEmail();
+        String phone = updatePerson.getPhone();
+        String birthday = updatePerson.getBirthday();
+
+        try {
+            // Get our database connection
+            conn = DBHelper.getConnection();
+
+            // This is a string that is our SQL query.
+            String sql = "update person set first=?, last=?, email=?, phone=?, birthday=? where id=?;";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, first);
+            stmt.setString(2, last);
+            stmt.setString(3, email);
+            stmt.setString(4, phone);
+            stmt.setString(5, birthday);
+            stmt.setInt(6, id);
+
             stmt.executeUpdate();
 
         } catch (SQLException se) {

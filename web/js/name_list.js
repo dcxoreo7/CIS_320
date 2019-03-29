@@ -20,6 +20,7 @@ function updateTable()
                 '<td>' + myPhone + '</td>' +
                 '<td>' + json_result[i].birthday + '</td>' +
                 '<td><button type="button" name="delete" class="deleteButton btn" value="' + json_result[i].id + '">Delete</button></td>' +
+                '<td><button type="button" name="edit" class="editButton btn" value="' + json_result[i].id + '">Edit</button></td>' +
                 '</tr>');
 
 
@@ -27,13 +28,106 @@ function updateTable()
         console.log("Done");
 
         $(".deleteButton").on("click", deleteItem);
+        $(".editButton").on("click", editItem);
     });
 }
 
 updateTable();
 
+
+// var buttons = $(".deleteButton");
+// buttons.on("click", deleteItem);
+
+function editItem(e){
+    console.log("Edit");
+    console.log(e.target.value);
+
+    // Grab the id from the event
+    var id = e.target.value;
+
+    //showDialogAdd()
+
+    $('#firstName').removeClass("is-valid");
+    $('#lastName').removeClass("is-valid");
+    $('#email').removeClass("is-valid");
+    $('#phone').removeClass("is-valid");
+    $('#birthday').removeClass("is-valid");
+    $('#firstName').removeClass("is-invalid");
+    $('#lastName').removeClass("is-invalid");
+    $('#birthday').removeClass("is-invalid");
+    $('#email').removeClass("is-invalid");
+    $('#phone').removeClass("is-invalid");
+
+    var url = "api/name_list_edit";
+    // //var myFieldValue = $("#jqueryPostJSONField").val();
+    // $.ajax({
+    //     type: 'POST',
+    //     url: url,
+    //     data: jsonString,
+    //     success: function(jsonString) {
+    //         console.log(jsonString);
+    //     },
+    //     contentType: "application/json",
+    //     dataType: 'text' // Could be JSON or whatever too
+
+    var firstName = e.target.parentNode.parentNode.querySelectorAll("td")[1].innerHTML; //3
+    var lastName = e.target.parentNode.parentNode.querySelectorAll("td")[2].innerHTML; //4
+    var email = e.target.parentNode.parentNode.querySelectorAll("td")[3].innerHTML; //5
+    var phone = e.target.parentNode.parentNode.querySelectorAll("td")[4].innerHTML; //6
+    var birthday = e.target.parentNode.parentNode.querySelectorAll("td")[7].innerHTML; //7
+
+    // document.getElementById('id').type = 'text';
+    // document.getElementById('idLabel').style.display = "block";
+
+
+    $('#id').val(id); // Yes, now we set and use the hidden ID field
+    $("#firstName").val(firstName);
+    $('#lastName').val(lastName);
+    $("#email").val(email);
+    $('#phone').val(phone);
+    $("#birthday").val(birthday);
+
+    $('#myModal').modal('show');
+
+    //showDialogAdd()
+}
+
+function deleteItem(e) {
+    console.debug("Delete");
+    var id = e.target.value;
+    console.debug(e.target.value);
+
+    var url = "api/name_list_delete";
+
+    //var jsonString = JSON.stringify(id);
+    var deletePerson = {id:id};
+    var jsonString = JSON.stringify(deletePerson);
+    console.log(jsonString);
+
+    var url = "api/name_list_delete";
+    //var myFieldValue = $("#jqueryPostJSONField").val();
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: jsonString,
+        success: function(jsonString) {
+            console.log(jsonString);
+            refreshFields();
+        },
+        contentType: "application/json",
+        dataType: 'text' // Could be JSON or whatever too
+    });
+    reFresh();
+}
+
+var addItemButton = $('#addItem');
+addItemButton.on("click", showDialogAdd)
+
 function showDialogAdd() {
     console.log("Opening add item dialog");
+
+    // document.getElementById('id').type = 'hidden';
+    // document.getElementById('idLabel').style.display = "none";
 
     $('#id').val("");
     $('#firstName').val("");
@@ -54,50 +148,22 @@ function showDialogAdd() {
     $('#birthday').removeClass("is-invalid");
 
     $('#myModal').modal('show');
-}
 
-var addItemButton = $('#addItem');
-addItemButton.on("click", showDialogAdd)
-
-// var buttons = $(".deleteButton");
-// buttons.on("click", deleteItem);
-
-function deleteItem(e) {
-    console.debug("Delete");
-    var id = e.target.value;
-    console.debug(e.target.value);
-
-
-    //var jsonString = JSON.stringify(id);
-    var deletePerson = {id:id};
-    var jsonString = JSON.stringify(deletePerson);
-    console.log(jsonString);
-
-    var url = "api/name_list_delete";
-    //var myFieldValue = $("#jqueryPostJSONField").val();
-    $.ajax({
-        type: 'POST',
-        url: url,
-        data: jsonString,
-        success: function(jsonString) {
-            console.log(jsonString);
-        },
-        contentType: "application/json",
-        dataType: 'text' // Could be JSON or whatever too
-    });
-    reFresh();
 }
 function reFresh(){
     location.reload();
 }
+
+var saveButton = $('#saveChanges');
+saveButton.on("click", saveChanges);
 
 function saveChanges() {
     console.log("Changes have been saved.")
     validateFunction();
 }
 
-var saveButton = $('#saveChanges');
-saveButton.on("click", saveChanges);
+//var editButton = $('#editItem');
+//editButton.on("click", showDialogAdd)
 
 // Function to validate
 function validateFunction() {
@@ -198,12 +264,19 @@ function jqueryPostJSONAction(jsonData) {
         dataType: 'text'
     });
 
+
 }
 
 
 function refreshFields() {
 
+    for(var i = $("#datatable tr").length-1; i > 0 ; i--) {
+        $("#datatable tr")[i].remove();
+    }
     $('#myModal').modal('hide');
     updateTable();
 
+
 }
+
+

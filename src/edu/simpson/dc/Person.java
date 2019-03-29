@@ -22,7 +22,7 @@ public class Person {
 
     public String getPhone() {return phone; }
     public void setPhone(String phone) {
-        this.phone = phone.substring(0,3) + "-" + phone.substring(3,6) + "-" + phone.substring(6,10);
+        this.phone = phone;
     }
 
     public String getBirthday() {return birthday; }
