@@ -1,7 +1,5 @@
 package edu.simpson.dc;
 
-//public class GetLoginServlet
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,27 +8,28 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 
-@WebServlet(name = "GetLoginServlet")
-public class GetLoginServlet extends HttpServlet {
+@WebServlet(name = "LoginServlet")
+public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // Set up our response
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
 
-        // --- Sessions ---
+        // Get the data passed in from the request string
+        String sessionKey = request.getParameter("sessionKey");
+        String sessionValue = request.getParameter("sessionValue");
 
-        // - This example uses a session to keep count of client requests.
+        // Get a session object so we can get/set items in our session.
+        // This will automatically create a JSESSIONID cookie for us.
+        // It also must happen BEFORE we try writing output to the user.
         HttpSession session = request.getSession();
-        String loginId = (String)session.getAttribute("loginId");
-        out.println(loginId);
 
-        // At this point, you could grab something out of the session like:
-        // String loginId = (String)session.getAttribute("loginId");
+        // Associate, in server memory, a key/value pair.
+        session.setAttribute(sessionKey, sessionValue);
 
-        // -- Example  1 --
-        // Use a session attribute called "Count" which we'll increase
-        // by one each time the user requests it.
+        out.println("Done setting the session variable");
 
     }
 
